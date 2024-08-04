@@ -22,12 +22,13 @@ const makeIfNeededAndGetInjectable = <T = unknown>(target: Type<T>): InjectableD
 export const makeTypeDecorator = (flags: InjectFlags) => {
 	function TypeDecoratorFactory(
 		this: unknown | typeof TypeDecoratorFactory,
-		options?: Record<any, unknown>,
+		options: Record<any, unknown> = {},
 	) {
 		if (this instanceof TypeDecoratorFactory) {
 			(this as unknown as InjectableType<any>).__injectable__ = defineInjectable({
-				flags,
+				provideIn: (options.provideIn ?? null) as ProvideIn,
 				customToken: DECORATOR_TOKEN,
+				flags,
 			});
 
 			return this;
@@ -36,7 +37,7 @@ export const makeTypeDecorator = (flags: InjectFlags) => {
 		return (target: Type<any>) => {
 			const injectable = makeIfNeededAndGetInjectable(target);
 
-			injectable.provideIn = (options?.provideIn ?? null) as ProvideIn;
+			injectable.provideIn = (options.provideIn ?? null) as ProvideIn;
 			injectable.flags |= flags;
 		};
 	}
@@ -51,8 +52,8 @@ export const makeParamDecorator = (flags: InjectFlags) => {
 	) {
 		if (this instanceof ParamDecoratorFactory) {
 			(this as unknown as InjectableType<any>).__injectable__ = defineInjectable({
-				flags,
 				customToken: DECORATOR_TOKEN,
+				flags,
 			});
 
 			return this;

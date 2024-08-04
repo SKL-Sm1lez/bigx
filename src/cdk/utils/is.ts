@@ -1,26 +1,5 @@
-type Tags =
-	| '[object Undefined]'
-	| '[object Null]'
-	| '[object Boolean]'
-	| '[object Number]'
-	| '[object String]'
-	| '[object Symbol]'
-	| '[object Function]'
-	| '[object Array]'
-	| '[object Object]'
-	| '[object BigInt]';
-
-const getTag = (value: unknown): Tags => {
-	if (value === undefined) {
-		return '[object Undefined]';
-	}
-
-	if (value === null) {
-		return '[object Null]';
-	}
-
-	return toString.call(value) as Tags;
-};
+import { getTag } from './@internal/get-tag';
+import { root } from './@internal/root';
 
 ////////////////////////////////////////////////////////////////////
 // #region isArray
@@ -237,6 +216,48 @@ export const isNull = (value: unknown): value is null => {
  */
 export const isUndefined = (value: unknown): value is undefined => {
 	return value === undefined;
+};
+
+// #endregion
+
+////////////////////////////////////////////////////////////////////
+// #region isBuffer
+////////////////////////////////////////////////////////////////////
+
+const nativeIsBuffer = root?.Buffer?.isBuffer;
+
+/**
+ * Checks if a value is a buffer.
+ *
+ * @param value - The value to check.
+ * @returns True if the value is a buffer, false otherwise.
+ *
+ * @description
+ * This function uses the `Buffer` constructor to check if a value is a buffer.
+ * If the `Buffer` constructor is not available in the current environment,
+ * the function always returns false.
+ */
+export const isBuffer =
+	typeof nativeIsBuffer === 'function'
+		? (value: unknown): value is Buffer => nativeIsBuffer(value)
+		: () => false;
+
+// #endregion
+
+////////////////////////////////////////////////////////////////////
+// #region isTypedArray
+////////////////////////////////////////////////////////////////////
+
+const reTypedTag = /^\[object (?:Float(?:32|64)|(?:Int|Uint)(?:8|16|32)|Uint8Clamped)Array\]$/;
+
+/**
+ * Checks if a value is a typed array.
+ *
+ * @param value - The value to check.
+ * @returns True if the value is a typed array, false otherwise.
+ */
+export const isTypedArray = (value: unknown): boolean => {
+	return isObjectLike(value) && reTypedTag.test(getTag(value));
 };
 
 // #endregion

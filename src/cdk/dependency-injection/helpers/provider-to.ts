@@ -8,7 +8,7 @@ import { isExistingProvider, isFactoryProvider, isTypeProvider, isValueProvider 
 import { makeRecord } from './make-record';
 import type { Type } from '@cdk/@types';
 import { runtimeError } from '@cdk/errors';
-import { plaform } from '@cdk/platform';
+import { platform } from '@cdk/platform';
 import { isFunction, stringify } from '@cdk/utils';
 
 export const providerToFactory = <T = unknown>(provider: Provider<T>): (() => T) => {
@@ -29,7 +29,7 @@ export const providerToFactory = <T = unknown>(provider: Provider<T>): (() => T)
 		factory = () => {
 			const type = provider.useClass || (provider.provide as Type<any>);
 
-			if (plaform.isDevMode && !isFunction(type)) {
+			if (platform.isDevMode && !isFunction(type)) {
 				throw runtimeError(
 					'Injector',
 					'Provider:',

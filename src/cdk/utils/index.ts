@@ -4,3 +4,7 @@ export * from './deep-for-each';
 export * from './run';
 export * from './has-own';
 export * from './get-clouser-safe-property';
+export * from './identity';
+export * from './composable/compose';
+export * from './composable/pipe';
+export * from './is-equal';

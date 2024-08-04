@@ -29,7 +29,7 @@ class Platform {
 	}
 }
 
-export const plaform = new Platform({
+export const platform = new Platform({
 	appMode: new AppModeManager(),
 	environment: new EnvironmentManager(),
 });

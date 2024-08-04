@@ -1,7 +1,7 @@
 export const RUNTIME_ERROR = 'RuntimeError';
 
 const runtimeError = (emitterName: string, ...errorMessage: string[]): Error => {
-	const error = new Error(`[${RUNTIME_ERROR} > ${emitterName}]\n${errorMessage.join('\n')}`);
+	const error = new Error(`[@bigx > ${emitterName}]\n${errorMessage.join('\n')}`);
 	error.name = RUNTIME_ERROR;
 	return error;
 };

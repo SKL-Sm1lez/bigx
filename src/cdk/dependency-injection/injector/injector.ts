@@ -19,7 +19,7 @@ import { providerToFactory, providerToRecord, provideToRecord } from '../helpers
 import type { BaseInjector } from './base-injector';
 import { nullInjector } from './null-injector';
 import { runtimeError } from '@cdk/errors';
-import { plaform } from '@cdk/platform';
+import { platform } from '@cdk/platform';
 import { deepForEach, isString, run, stringify } from '@cdk/utils';
 
 interface InjectorOptions {
@@ -55,7 +55,7 @@ export class Injector implements BaseInjector {
 
 		this.parent = options.parent || nullInjector;
 
-		if (plaform.isDevMode && options.scopes?.length && !options.scopes.every(isString)) {
+		if (platform.isDevMode && options.scopes?.length && !options.scopes.every(isString)) {
 			throw runtimeError(
 				'Injector',
 				'Scopes must be an array of strings',

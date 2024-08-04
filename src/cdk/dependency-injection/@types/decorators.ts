@@ -7,3 +7,7 @@ export interface ParamDecorateFn {
 export interface TypeDecorateFn {
 	(type: Type<any>): void;
 }
+
+export interface PropertyDecorateFn {
+	(target: any, propertyKey: string): void;
+}
