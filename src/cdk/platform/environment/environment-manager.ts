@@ -1,6 +1,9 @@
 import type { BaseEnvironment } from './base-environment';
-import { canUseDom } from './helpers/can-use-dom';
 
 export class EnvironmentManager implements BaseEnvironment {
-	public readonly isBrowser = canUseDom();
+	public readonly isBrowser = !!(
+		typeof window !== 'undefined' &&
+		typeof window.document &&
+		typeof window.document.createElement
+	);
 }
